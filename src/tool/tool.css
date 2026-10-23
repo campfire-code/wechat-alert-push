@@ -1,0 +1,31 @@
+/* 订单 / 库存告警推到微信：只用 kit.css 的变量，类名以 al- 开头 */
+.al-root { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 12px; }
+.al-card { padding: 12px 14px; display: grid; gap: 10px; }
+.al-card p { margin: 0; }
+.al-hd { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.al-grow { flex: 1; }
+.al-src { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.al-src .k-input { width: auto; min-width: 0; max-width: 150px; }
+.al-lbl { color: var(--muted); font-size: .88em; }
+.al-rule, .al-ch { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.al-rule .k-input, .al-ch .k-input { width: auto; min-width: 0; }
+.al-n { width: 64px !important; }
+.al-st { width: 170px !important; }
+.al-chname { width: 130px !important; }
+.al-url { width: 280px !important; }
+.al-sec { width: 120px !important; }
+.al-kw { width: 90px !important; }
+.al-check { display: inline-flex; align-items: center; gap: 6px; }
+.al-stat { padding: 2px 10px; border-radius: 999px; background: var(--chip); font-size: .9em; }
+.al-stat.warn { background: var(--warn-soft); color: var(--warn); }
+.al-lv { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: .88em; }
+.al-lv.urgent { background: var(--err-soft); color: var(--err); }
+.al-lv.warn { background: var(--warn-soft); color: var(--warn); }
+.al-ok { color: var(--ok); }
+.al-err { color: var(--err); white-space: normal; }
+.al-bad { color: var(--err); font-size: .88em; }
+.al-tablebox { max-height: 280px; }
+.al-confirm { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--warn); font-weight: 500; }
+.al-root > * { flex: none; }
+.al-src, .al-rule, .al-ch { row-gap: 6px; }
+.al-url { width: 240px !important; }

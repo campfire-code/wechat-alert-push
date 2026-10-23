@@ -1,0 +1,16 @@
+{
+  "id": "w15",
+  "slug": "wechat-alert-push",
+  "name": "订单 / 库存告警推到微信",
+  "version": "0.1.0",
+  "repo": "campfire-code/wechat-alert-push",
+  "license": "MIT",
+  "ui": {
+    "layout": "a",
+    "palette": "rose"
+  },
+  "upstream": {
+    "repo": "easychen/wecomchan",
+    "license": "MIT"
+  }
+}
