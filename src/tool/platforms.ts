@@ -7,7 +7,7 @@ export interface Channel {
   id: string;
   name: string;
   platform: Platform;
-  /** 机器人 Webhook 地址（含 key / access_token，属于敏感信息，只存本机） */
+  /** 机器人地址（含 key / access_token，属于敏感信息，只存本机） */
   url: string;
   /** 钉钉「加签」或飞书「签名校验」的密钥，不用就留空 */
   secret: string;
@@ -29,12 +29,15 @@ export const platformOf = (p: Platform) => PLATFORMS.find((x) => x.id === p)!;
 /** 地址检查：返回问题说明，没问题返回 null */
 export function checkUrl(p: Platform, url: string): string | null {
   const u = url.trim();
-  if (!u) return '还没有填 Webhook 地址';
+  if (!u) return '还没有填机器人地址';
   let parsed: URL;
   try { parsed = new URL(u); } catch { return '地址格式不对，请从机器人设置里完整复制'; }
   if (parsed.protocol !== 'https:') return '地址应以 https:// 开头';
+  // check-zh: 忽略（提示里的示例地址格式，用户要照着填）
   if (p === 'wecom' && !(parsed.host === 'qyapi.weixin.qq.com' && parsed.pathname === '/cgi-bin/webhook/send' && parsed.searchParams.get('key'))) return '这不像企业微信群机器人地址，应形如 https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=…';
+  // check-zh: 忽略（提示里的示例地址格式，用户要照着填）
   if (p === 'dingtalk' && !(/^oapi\.dingtalk\.(com|io)$/.test(parsed.host) && parsed.pathname === '/robot/send' && parsed.searchParams.get('access_token'))) return '这不像钉钉自定义机器人地址，应形如 https://oapi.dingtalk.com/robot/send?access_token=…';
+  // check-zh: 忽略（提示里的示例地址格式，用户要照着填）
   if (p === 'feishu' && !(/^open\.(feishu\.cn|larksuite\.com)$/.test(parsed.host) && parsed.pathname.startsWith('/open-apis/bot/v2/hook/'))) return '这不像飞书自定义机器人地址，应形如 https://open.feishu.cn/open-apis/bot/v2/hook/…';
   return null;
 }

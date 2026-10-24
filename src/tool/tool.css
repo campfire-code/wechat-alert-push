@@ -1,31 +1,121 @@
-/* 订单 / 库存告警推到微信：只用 kit.css 的变量，类名以 al- 开头 */
-.al-root { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 12px; }
-.al-card { padding: 12px 14px; display: grid; gap: 10px; }
-.al-card p { margin: 0; }
-.al-hd { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* 订单 / 库存告警推到微信：监控台式界面，四步标签 + 大数字 + 异常清单 + 群消息气泡预览。只用 kit.css 变量，类名以 al- 开头 */
+.al-root { flex: 1; min-height: 0; overflow: auto; display: flex; flex-direction: column; gap: 14px; container-type: inline-size; }
+.al-root > * { flex: none; }
 .al-grow { flex: 1; }
-.al-src { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.al-src .k-input { width: auto; min-width: 0; max-width: 150px; }
-.al-lbl { color: var(--muted); font-size: .88em; }
-.al-rule, .al-ch { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.al-rule .k-input, .al-ch .k-input { width: auto; min-width: 0; }
-.al-n { width: 64px !important; }
-.al-st { width: 170px !important; }
-.al-chname { width: 130px !important; }
-.al-url { width: 280px !important; }
-.al-sec { width: 120px !important; }
-.al-kw { width: 90px !important; }
-.al-check { display: inline-flex; align-items: center; gap: 6px; }
-.al-stat { padding: 2px 10px; border-radius: 999px; background: var(--chip); font-size: .9em; }
-.al-stat.warn { background: var(--warn-soft); color: var(--warn); }
-.al-lv { display: inline-block; padding: 0 8px; border-radius: 999px; font-size: .88em; }
-.al-lv.urgent { background: var(--err-soft); color: var(--err); }
-.al-lv.warn { background: var(--warn-soft); color: var(--warn); }
+.al-root h2 { margin: 0; font-size: 1.12em; }
+.al-hd { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.al-none { margin: 0; padding: 18px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius); color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.al-none.ok { border-style: solid; border-color: var(--ok); background: var(--ok-soft); color: var(--ok); font-weight: 600; }
+.al-check { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; }
+.al-check input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--primary); }
+.al-n { width: 72px !important; }
+.al-bad { color: var(--err); font-size: .92em; }
 .al-ok { color: var(--ok); }
 .al-err { color: var(--err); white-space: normal; }
-.al-bad { color: var(--err); font-size: .88em; }
-.al-tablebox { max-height: 280px; }
-.al-confirm { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--warn); font-weight: 500; }
-.al-root > * { flex: none; }
-.al-src, .al-rule, .al-ch { row-gap: 6px; }
-.al-url { width: 240px !important; }
+
+/* 步骤标签 */
+.al-steps { display: flex; gap: 6px; padding: 4px; border-radius: 14px; background: var(--chip); overflow-x: auto; }
+.al-step { flex: 1 1 0; min-width: max-content; display: inline-flex; align-items: center; justify-content: center; gap: 7px; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; color: var(--muted); font-weight: 600; cursor: pointer; transition: background .18s var(--ease), color .18s var(--ease); }
+.al-step:hover { color: var(--ink); }
+.al-step.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 4px rgba(0, 0, 0, .12); }
+.al-no { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line-strong); font-size: .78em; font-variant-numeric: tabular-nums; }
+.al-step.on .al-no { border-color: var(--primary); color: var(--primary); }
+.al-step .al-no.done { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.al-badge { min-width: 20px; padding: 0 6px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); font-size: .8em; text-align: center; line-height: 20px; }
+.al-badge.urgent { background: var(--err-soft); color: var(--err); }
+
+.al-pane { display: grid; gap: 14px; }
+.al-sec-box { display: grid; gap: 12px; padding: 14px 16px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); }
+
+/* 数据来源 */
+.al-srcs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+.al-src { display: grid; gap: 10px; padding: 12px; border-radius: var(--radius); border: 1px dashed var(--line-strong); }
+.al-src.on { border-style: solid; border-color: var(--line); background: var(--bg); }
+.al-src-hd { display: flex; align-items: center; gap: 10px; }
+.al-src-ic { display: grid; place-items: center; width: 36px; height: 36px; flex: none; border-radius: 10px; background: var(--primary-soft); color: var(--primary); }
+.al-src-tt { flex: 1; min-width: 0; display: grid; }
+.al-map { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.al-lbl { display: grid; gap: 3px; color: var(--muted); font-size: .9em; }
+.al-lbl .k-input { max-width: none; color: var(--ink); }
+
+/* 规则卡片 */
+.al-rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.al-rule { display: grid; gap: 8px; padding: 12px; border-radius: var(--radius); border: 1px solid var(--line); border-left: 4px solid var(--line-strong); opacity: .75; }
+.al-rule.on { opacity: 1; border-left-color: var(--primary); background: var(--bg); }
+.al-rule-tt { font-weight: 700; }
+.al-rule-ctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.al-rule .al-n { font-size: 1.15em; font-weight: 700; }
+.al-st { width: 100% !important; }
+.al-rule-desc { color: var(--muted); font-size: .9em; }
+
+/* 群机器人 */
+.al-chs { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 10px; }
+.al-ch { display: grid; gap: 8px; padding: 12px; border-radius: var(--radius); border: 1px solid var(--line); border-top: 4px solid var(--line-strong); opacity: .8; }
+.al-ch.on { opacity: 1; background: var(--bg); }
+.al-ch.wecom.on { border-top-color: #2BB027; }
+.al-ch.dingtalk.on { border-top-color: #2F7DF6; }
+.al-ch.feishu.on { border-top-color: #14B8A6; }
+.al-ch-hd { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+.al-ch-bd { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.al-ch, .al-rule { align-content: start; align-self: start; min-width: 0; }
+.al-ch-hd > * { flex: none; }
+.al-ch-hd > .al-chname { flex: 1 1 0; }
+.al-ch .k-input { width: auto; min-width: 0; }
+.al-chname { min-width: 0 !important; }
+.al-plat { width: 104px !important; }
+.al-url { flex: 1 1 100%; }
+.al-sec { flex: 1 1 120px; }
+.al-kw { flex: 1 1 90px; }
+
+/* 监控台 */
+.al-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.al-tile { display: grid; gap: 2px; padding: 12px 16px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--line-strong); }
+.al-tile small { color: var(--muted); font-size: .92em; }
+.al-tile b { font-size: 2.5em; line-height: 1.1; font-weight: 800; }
+.al-tile span { color: var(--muted); font-size: .86em; }
+.al-tile.urgent { border-top-color: var(--err); } .al-tile.urgent b { color: var(--err); }
+.al-tile.warn { border-top-color: var(--warn); } .al-tile.warn b { color: var(--warn); }
+
+.al-main { display: grid; grid-template-columns: minmax(0, 7fr) minmax(280px, 5fr); gap: 14px; align-items: start; }
+.al-feed { display: grid; gap: 10px; padding: 14px 16px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); min-width: 0; }
+.al-grp h3 { margin: 4px 0 6px; display: flex; align-items: center; gap: 8px; font-size: 1em; color: var(--muted); }
+.al-grp h3 .k-num { padding: 0 8px; border-radius: 999px; background: var(--chip); color: var(--ink); font-size: .9em; }
+.al-grp ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.al-grp li { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 4px 10px; border-radius: 8px; background: var(--bg); border-left: 3px solid var(--warn); }
+.al-grp li.urgent { border-left-color: var(--err); }
+.al-tx { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.al-lv { flex: none; padding: 0 8px; border-radius: 999px; font-size: .86em; font-weight: 600; }
+.al-lv.urgent { background: var(--err-soft); color: var(--err); }
+.al-lv.warn { background: var(--warn-soft); color: var(--warn); }
+.al-cool { flex: none; padding: 0 8px; border-radius: 999px; background: var(--chip); color: var(--muted); font-size: .84em; }
+
+.al-side { position: sticky; top: 0; display: grid; gap: 12px; padding: 14px 16px; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); min-width: 0; }
+.al-chat { display: grid; gap: 8px; padding: 14px 12px 10px; border-radius: var(--radius); background: #EDEDED; --bub: #fff; --bub-ink: #111; }
+html[data-mode="dark"] .al-chat { background: #1E1E1E; --bub: #3A3A3A; --bub-ink: #F2F2F2; }
+.al-bot { display: inline-flex; align-items: center; gap: 5px; font-size: .88em; color: #5B5B5B; }
+html[data-mode="dark"] .al-bot, html[data-mode="dark"] .al-chat-hint { color: #A8A8A8; }
+.al-bubble { position: relative; padding: 10px 14px; margin-left: 6px; border-radius: 8px; background: var(--bub); color: var(--bub-ink); max-height: 300px; overflow: auto; line-height: 1.6; font-size: .95em; user-select: text; }
+.al-bubble::before { content: ""; position: absolute; left: -6px; top: 10px; border: 6px solid transparent; border-right-color: var(--bub); border-left-width: 0; }
+.al-ln { overflow-wrap: anywhere; }
+.al-dot { display: inline-block; width: 9px; height: 9px; margin: 0 5px 1px 0; border-radius: 50%; background: var(--warn); }
+.al-dot.urgent { background: #E02424; }
+.al-chat-hint { font-size: .88em; color: #5B5B5B; }
+.al-act { display: grid; gap: 8px; }
+.al-act .k-btn.big { width: 100%; }
+.al-confirm { display: grid; gap: 8px; padding: 10px 12px; border-radius: var(--radius); background: var(--warn-soft); color: var(--warn); font-weight: 500; }
+.al-confirm-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.al-auto { flex-wrap: wrap; }
+
+/* 推送记录：时间线 */
+.al-log { list-style: none; margin: 0; padding: 0 0 0 10px; display: grid; gap: 0; border-left: 2px solid var(--line); }
+.al-log li { position: relative; padding: 8px 0 10px 22px; }
+.al-pt { position: absolute; left: -12px; top: 10px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--ok); color: var(--bg); }
+.al-log li.err .al-pt { background: var(--err); }
+.al-log-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+@container (max-width: 760px) {
+  .al-chs { grid-template-columns: minmax(0, 1fr); }
+  .al-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .al-main { grid-template-columns: minmax(0, 1fr); }
+  .al-side { position: static; order: -1; }
+}

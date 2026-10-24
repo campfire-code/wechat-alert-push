@@ -255,7 +255,7 @@ export function cutBytes(s: string, max: number): string {
 const pad = (n: number) => String(n).padStart(2, '0');
 export const fmtTime = (d: Date) => `${d.getMonth() + 1}月${d.getDate()}日 ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 
-const KIND_TITLE: Record<RuleKind, string> = { zeroStock: '已售罄', lowStock: '库存不足', unshipped: '超时未发货', statusCount: '订单状态' };
+export const KIND_TITLE: Record<RuleKind, string> = { zeroStock: '已售罄', lowStock: '库存不足', unshipped: '超时未发货', statusCount: '订单状态' };
 
 export interface BuildOptions {
   /** 每条消息开头都带上，用于钉钉「自定义关键词」安全设置 */
